@@ -2943,7 +2943,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Arm_Beagle|Trot_F_IP
+      name: Trot_F_IP
       takeName: Arm_Beagle|Trot_F_IP
       internalID: -3634739999948182400
       firstFrame: 0
@@ -3233,7 +3233,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Arm_Beagle|Walk_F_IP
+      name: Walk_F_IP
       takeName: Arm_Beagle|Walk_F_IP
       internalID: 3766352230856816669
       firstFrame: 0

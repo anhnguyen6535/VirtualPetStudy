@@ -21,6 +21,7 @@ public class PickUp : MonoBehaviour
     private float velocityThreshold = 0.1f;
     private Animator animator;
     private bool awaitPetting = false;
+    private bool firstTime = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,7 +38,7 @@ public class PickUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ballLanded){
+        if(firstTime && ballLanded){
             MoveToTarget(target);
             // var step = speed * Time.deltaTime;
             // transform.LookAt(target.transform, Vector3.up);
@@ -51,9 +52,10 @@ public class PickUp : MonoBehaviour
                 backToStartPos = false;
                 RotateToDirection(startPos);
             }
-        }else if(happy){
-            HappyInteraction();
         }
+        // else if(happy){
+        //     HappyInteraction();
+        // }
         
         // else if(sleepy){
             // SleepInteraction();
@@ -106,6 +108,7 @@ public class PickUp : MonoBehaviour
 
             animator.SetBool("putdown", true);
             animator.SetBool("run", false);
+            firstTime = false;
             // StartCoroutine(DetachBall());
         }
     }
@@ -123,11 +126,12 @@ public class PickUp : MonoBehaviour
     }
 
     void DetachBallFromDog(){
-        target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
+        // target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
+        Destroy(target);
 
     }
 
-    void HappyInteraction(){
+    public void HappyInteraction(){
         animator.SetBool("happy", true);
         StartCoroutine(StopHappy());
     }
