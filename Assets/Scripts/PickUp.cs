@@ -11,7 +11,7 @@ public class PickUp : MonoBehaviour
     [SerializeField] Transform mouthPosition;
     public bool ballLanded = false;
     public bool backToStartPos = false;
-    public float speed = 0.5f;
+    public float speed = 0.1f;
     public float rotationSpeed = 0.2f;
     public bool happy = false;
     // public bool sleepy = false;
@@ -46,7 +46,7 @@ public class PickUp : MonoBehaviour
         }
         else if(backToStartPos){
             MoveToTarget(startPos);
-            if(Vector3.Distance(transform.position, startPos.transform.position) < 0.1f){
+            if(Vector3.Distance(transform.position, startPos.transform.position) < 0.05f){
                 Debug.Log("arrived at start pos");
                 animator.SetBool("pickup", false);
                 backToStartPos = false;
@@ -94,9 +94,9 @@ public class PickUp : MonoBehaviour
 
     void MoveToTarget(GameObject destination){
         animator.SetBool("run", true);
-        var step = speed * Time.deltaTime;
+        // var step = speed * Time.deltaTime;
         transform.LookAt(destination.transform, Vector3.up);
-        transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);
+        // transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);
     }
 
     void RotateToDirection(GameObject destination){
