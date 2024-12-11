@@ -14,7 +14,7 @@ public class PickUp : MonoBehaviour
     public float speed = 0.1f;
     public float rotationSpeed = 0.2f;
     public bool happy = false;
-    // public bool sleepy = false;
+    public bool sleep = false;
     private XRGrabInteractable grabInteractable;
     private Rigidbody targetRigidbody;
     public float stopDistance = 1.5f;
@@ -53,9 +53,14 @@ public class PickUp : MonoBehaviour
                 RotateToDirection(startPos);
             }
         }
-        // else if(happy){
-        //     HappyInteraction();
-        // }
+        else if(happy){
+            HappyInteraction();
+            happy = false;
+        }
+        else if(sleep){
+            SleepInteraction();
+            sleep = false;
+        }
         
         // else if(sleepy){
             // SleepInteraction();
@@ -143,16 +148,16 @@ public class PickUp : MonoBehaviour
 
     }
 
-    // void SleepInteraction(){
-    //     animator.SetBool("sleep", true);
-    //     StartCoroutine(StopSleepy());
-    // }
+    void SleepInteraction(){
+        animator.SetBool("sleep", true);
+        // StartCoroutine(StopSleepy());
+    }
 
-    // IEnumerator StopSleepy(){
-    //     yield return new WaitForSeconds(5);
-    //     animator.SetBool("sleep", false);
+    IEnumerator StopSleepy(){
+        yield return new WaitForSeconds(5);
+        animator.SetBool("sleep", false);
 
-    // }
+    }
 
     // Detech hand collide
     // void OnTriggerEnter(Collider collider){

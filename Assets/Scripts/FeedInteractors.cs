@@ -20,6 +20,7 @@ public class FeedInteractors : MonoBehaviour
     void Update()
     {
         if(bowl.transform.position == attachPoint.position && firstTime == 0){
+            animator.SetBool("sleep", false);
             animator.SetBool("eating", true);
             firstTime = 1;
         }

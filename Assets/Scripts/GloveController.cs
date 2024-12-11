@@ -22,12 +22,13 @@ public class GloveController : MonoBehaviour
 
     public void PlayHapticFeedback(){
         BhapticsLibrary.Play("game_start");
-        Debug.Log("haptic played");
+        Debug.Log("touch_right");
+        // Debug.Log("haptic played");
     }
 
     public void StopHapticFeedback(){
         Debug.Log("Should stop");
-        // BhapticsLibrary.Stop("game_start");
+        // BhapticsManager.Stop("touch");
 
     }
 }
