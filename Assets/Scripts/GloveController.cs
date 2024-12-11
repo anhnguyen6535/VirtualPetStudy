@@ -19,4 +19,15 @@ public class GloveController : MonoBehaviour
             clicked = false;
         }
     }
+
+    public void PlayHapticFeedback(){
+        BhapticsLibrary.Play("game_start");
+        Debug.Log("haptic played");
+    }
+
+    public void StopHapticFeedback(){
+        Debug.Log("Should stop");
+        // BhapticsLibrary.Stop("game_start");
+
+    }
 }

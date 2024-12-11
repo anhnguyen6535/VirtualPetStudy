@@ -78,6 +78,7 @@ public class PickUp : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider){
+        Debug.Log("sth touch dog");
         if(collider.gameObject.CompareTag("ball") && ballLanded){
             Debug.Log("ball is within reach");
             ballLanded = false;

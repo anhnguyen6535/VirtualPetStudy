@@ -9,6 +9,7 @@ TagManager:
   - ball
   - mouthAttach
   - hand
+  - dog
   layers:
   - Default
   - TransparentFX
