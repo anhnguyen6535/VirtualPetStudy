@@ -17,9 +17,9 @@ namespace Bhaptics.SDK2
     public class BhapticsEvent
     {
         
-        public const string GRAB = "grab";
-        
         public const string TOUCH_RIGHT = "touch_right";
+        
+        public const string GRAB = "grab";
         
         public const string GAME_START = "game_start";
         

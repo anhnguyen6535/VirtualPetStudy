@@ -54,6 +54,7 @@ public class PickUp : MonoBehaviour
             }
         }
         else if(happy){
+            Debug.Log("trigger happy");
             HappyInteraction();
             happy = false;
         }
@@ -115,6 +116,7 @@ public class PickUp : MonoBehaviour
             animator.SetBool("putdown", true);
             animator.SetBool("run", false);
             firstTime = false;
+            StartCoroutine(WaitForPutdownFinish());
             // StartCoroutine(DetachBall());
         }
     }
@@ -143,7 +145,7 @@ public class PickUp : MonoBehaviour
     }
 
     IEnumerator StopHappy(){
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3f);
         animator.SetBool("happy", false);
 
     }
@@ -157,6 +159,22 @@ public class PickUp : MonoBehaviour
         yield return new WaitForSeconds(5);
         animator.SetBool("sleep", false);
 
+    }
+
+    IEnumerator WaitForPutdownFinish(){
+        // Get the AnimatorStateInfo of the current animation
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        // Wait until the animation matches the name and is not complete
+        while (!stateInfo.IsName("Put_down") || stateInfo.normalizedTime < 1.0f)
+        {
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null; // Wait for the next frame
+        }
+
+        Debug.Log("Animation finished!");
+        animator.SetBool("putdown", false);
+        happy = true;
     }
 
     // Detech hand collide

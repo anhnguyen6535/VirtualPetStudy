@@ -3059,7 +3059,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Arm_Beagle|Turn_L_IP
+      name: Turn_L_IP
       takeName: Arm_Beagle|Turn_L_IP
       internalID: -2130627373937932171
       firstFrame: 0

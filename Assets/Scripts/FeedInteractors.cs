@@ -21,7 +21,8 @@ public class FeedInteractors : MonoBehaviour
     {
         if(bowl.transform.position == attachPoint.position && firstTime == 0){
             animator.SetBool("sleep", false);
-            animator.SetBool("eating", true);
+            // animator.SetBool("eating", true);
+            StartCoroutine(StartEating());
             firstTime = 1;
         }
         // else if(bowl.transform.position == transform.position && firstTime == 2){
@@ -54,6 +55,7 @@ public class FeedInteractors : MonoBehaviour
                 Debug.Log("take away bowl");
                 animator.SetBool("eating", false);
                 firstTime = 2;
+                StartCoroutine(StopAttack());
             }
             // timeCount = 2;
             // StartCoroutine(StartEating());
@@ -61,7 +63,13 @@ public class FeedInteractors : MonoBehaviour
     }
 
     IEnumerator StartEating(){
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(7);
         animator.SetBool("eating", true);
+    }
+
+    // DEMO only
+    IEnumerator StopAttack(){
+        yield return new WaitForSeconds(5);
+        animator.SetBool("idle", true);
     }
 }

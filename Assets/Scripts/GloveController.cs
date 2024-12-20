@@ -21,7 +21,7 @@ public class GloveController : MonoBehaviour
     }
 
     public void PlayHapticFeedback(){
-        BhapticsLibrary.Play("game_start");
+        BhapticsLibrary.Play("touch_right");
         Debug.Log("touch_right");
         // Debug.Log("haptic played");
     }
