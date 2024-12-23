@@ -14,7 +14,7 @@ public class AttachBallToMouth : MonoBehaviour
 
     void Start()
     {
-        // targetRigidbody = target.GetComponent<Rigidbody>();  // Get the Rigidbody of the ball
+    
     }
 
     void Update(){
@@ -40,11 +40,6 @@ public class AttachBallToMouth : MonoBehaviour
 
             if(!isBone) StartCoroutine(Comeback());
         }
-
-        // else if(collider.gameObject.CompareTag("hand")){
-        //     Debug.Log("Hand touch");
-        //     touchMouth = false;
-        // }
     }
 
     IEnumerator Comeback(){
