@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class PickUp : MonoBehaviour
 {
     [SerializeField] GameObject target;
+    [SerializeField] GameObject bone;
     [SerializeField] GameObject startPos;
     [SerializeField] Transform mouthPosition;
     [SerializeField] SequenceHandler sequenceHandler;
@@ -136,7 +137,11 @@ public class PickUp : MonoBehaviour
 
     void DetachBallFromDog(){
         // target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
-        Destroy(target);
+        if(sequenceHandler.GetCurrentStateIndex() < 5){
+            Destroy(target);
+        }else{
+            bone.GetComponent<AttachBallToMouth>().AttachBoneToSocket();
+        }
 
     }
 
@@ -180,6 +185,10 @@ public class PickUp : MonoBehaviour
         animator.SetBool("putdown", false);
 
         HappyInteraction();
+    }
+
+    public void PromptPetting(){
+        sequenceHandler.PromptPetting();
     }
 
     // Detech hand collide

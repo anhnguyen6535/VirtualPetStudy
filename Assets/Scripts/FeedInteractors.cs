@@ -6,10 +6,12 @@ public class FeedInteractors : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] PickUp pickupScript;
     [SerializeField] GameObject bowl;
+    [SerializeField] GameObject bone;
     [SerializeField] Transform attachPoint;
     [SerializeField] SequenceHandler sequenceHandler;
     // private int timeCount = 1;
     private int firstTime = 0;
+    private int firstTimeBone = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,22 +26,28 @@ public class FeedInteractors : MonoBehaviour
             // back to sitting 
             animator.SetBool("sleep", false);
 
-            // prompt petting
-            // sequenceHandler.PromptPetting();
-            // animator.SetBool("eating", true);
-            StartCoroutine(WaitForLyingDownFinish());
+            StartCoroutine(WaitABitBeforePrompt());
             firstTime = 1;
-            // sequenceHandler.SetStateIndex(2);
         }
-        // else if(bowl.transform.position == transform.position && firstTime == 2){
-        //     animator.SetBool("eating", false);
-        // }
+        if(bone.transform.position == attachPoint.position){
+            Debug.Log($"First time bone {firstTimeBone}");
+            if(firstTimeBone == 0){
+                // back to sitting 
+                animator.SetBool("idle", true);
+
+                // prompt petting
+                firstTimeBone = 1;
+                StartCoroutine(WaitABitBeforePrompt());
+            }else if(firstTimeBone == 2){
+                Debug.Log("Second time bone");
+            }
+        }
         
     }
 
     private void OnTriggerEnter(Collider other) {
         // if(other.gameObject.CompareTag("bowl")){
-        Debug.Log($"Entered trigger at {Time.time} pos: {bowl.transform.position}");
+        Debug.Log($"Entered trigger at {Time.time}");
         // if(other.gameObject == bowl ){
         //     // if(timeCount == 1){
         //     if(firstTime){
@@ -66,6 +74,15 @@ public class FeedInteractors : MonoBehaviour
             // timeCount = 2;
             // StartCoroutine(StartEating());
         }
+        if(other.gameObject == bone){
+            if(firstTimeBone == 1){
+                Debug.Log("picked up bone");
+                firstTimeBone = 2;
+                // StartCoroutine(StopAttack());
+            }
+            // timeCount = 2;
+            // StartCoroutine(StartEating());
+        }
     }
 
     IEnumerator StartEating(){
@@ -76,10 +93,13 @@ public class FeedInteractors : MonoBehaviour
     // DEMO only
     IEnumerator StopAttack(){
         yield return new WaitForSeconds(5);
-        animator.SetBool("idle", true);
+
+        // prompt
+        sequenceHandler.SetStateIndex(4);
+        // animator.SetBool("idle", true);
     }
 
-    IEnumerator WaitForLyingDownFinish(){
+    IEnumerator WaitABitBeforePrompt(){
 
         yield return new WaitForSeconds(3);
 

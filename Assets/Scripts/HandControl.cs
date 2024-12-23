@@ -40,7 +40,7 @@ public class HandControl : MonoBehaviour
             gloveController.PlayHapticFeedback();
             Debug.Log("Hand stay touching dog");
             float elapsedTime = Time.time - startTime;
-            if (elapsedTime > 5f)
+            if (elapsedTime > 2f)
             {
                 Debug.Log("User has petted dog for more than 5 seconds!");
                 // uiPrompt.SetActive(true);

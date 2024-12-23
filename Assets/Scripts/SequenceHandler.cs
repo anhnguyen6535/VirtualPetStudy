@@ -16,6 +16,8 @@ public class SequenceHandler : MonoBehaviour
     [SerializeField] GameObject pettingUI;
     [SerializeField] GameObject feedingUI;
     [SerializeField] GameObject takeAwayUI;
+    [SerializeField] GameObject finishUI;
+    [SerializeField] GameObject boneUI;
     [SerializeField] PickUp pickUp;
     [SerializeField] Animator dogAnimator;
     [SerializeField] GameObject bowl;
@@ -35,6 +37,8 @@ public class SequenceHandler : MonoBehaviour
 
     public void SetStateIndex(int num){
         Debug.Log(num);
+        currentStateIndex = num;
+        PerformeCurrentState();
     }
 
     public void IncrementStateIndex(){
@@ -50,13 +54,20 @@ public class SequenceHandler : MonoBehaviour
         if(currentStateIndex == 1){
             fetchingUI.SetActive(true);
         }else if(currentStateIndex == 2){
-            // pickUp.SleepInteraction();
             dogAnimator.SetBool("sleep", true);
             bowl.SetActive(true);
             StartCoroutine(PromptFeeding());
         }else if(currentStateIndex == 3){
             dogAnimator.SetBool("eating", true);
             StartCoroutine(PromptTakeAway());
+        }else if(currentStateIndex == 4){
+            boneUI.SetActive(true);
+        }else if(currentStateIndex == 5){
+            dogAnimator.SetBool("bone", true);
+            StartCoroutine(PickupBone());
+        }else if(currentStateIndex == 6){
+            Debug.Log("END");
+            finishUI.SetActive(true);
         }
     }
 
@@ -67,6 +78,12 @@ public class SequenceHandler : MonoBehaviour
     IEnumerator PromptFeeding(){
         yield return new WaitForSeconds(2);
         feedingUI.SetActive(true);
+    }
+
+    IEnumerator PickupBone(){
+        yield return new WaitForSeconds(2);
+        dogAnimator.SetBool("bone", false);
+        Debug.Log($"BONED {currentStateIndex}");
     }
 
     IEnumerator PromptTakeAway(){
@@ -80,5 +97,9 @@ public class SequenceHandler : MonoBehaviour
 
     public bool GetIsWaitingForPetting(){
         return waitingForPetting;
+    }
+
+    public int GetCurrentStateIndex(){
+        return currentStateIndex;
     }
 }
