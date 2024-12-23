@@ -21650,7 +21650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9126638710726091284, guid: 6209a99efac034346974d2f6f7c8f9df, type: 3}
       propertyPath: m_Name
-      value: Bone_2
+      value: Bone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -26190,18 +26190,6 @@ MonoBehaviour:
   m_MinimumScaleRatio: 0.25
   m_MaximumScaleRatio: 2
   m_ScaleMultiplier: 0.25
---- !u!114 &1312893104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312893090}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3bc33eafbd93d84d9cf24b3227315ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1312893108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28456,7 +28444,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1208274303781113337, guid: d8e3d5163df6d6e47b1d5ed5cf0f8af4, type: 3}
       propertyPath: m_Name
-      value: Ball_2
+      value: Ball
       objectReference: {fileID: 0}
     - target: {fileID: 1208274303781113337, guid: d8e3d5163df6d6e47b1d5ed5cf0f8af4, type: 3}
       propertyPath: m_TagString
@@ -28545,9 +28533,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1208274303781113337, guid: d8e3d5163df6d6e47b1d5ed5cf0f8af4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1312893108}
-    - targetCorrespondingSourceObject: {fileID: 1208274303781113337, guid: d8e3d5163df6d6e47b1d5ed5cf0f8af4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1312893104}
   m_SourcePrefab: {fileID: 100100000, guid: d8e3d5163df6d6e47b1d5ed5cf0f8af4, type: 3}
 --- !u!1 &1470990444
 GameObject:
