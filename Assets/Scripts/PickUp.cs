@@ -7,20 +7,23 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class PickUp : MonoBehaviour
 {
     [SerializeField] GameObject target;
+    [SerializeField] GameObject bone;
     [SerializeField] GameObject startPos;
     [SerializeField] Transform mouthPosition;
+    [SerializeField] SequenceHandler sequenceHandler;
     public bool ballLanded = false;
     public bool backToStartPos = false;
-    public float speed = 0.5f;
+    public float speed = 0.1f;
     public float rotationSpeed = 0.2f;
     public bool happy = false;
-    // public bool sleepy = false;
+    public bool sleep = false;
     private XRGrabInteractable grabInteractable;
     private Rigidbody targetRigidbody;
     public float stopDistance = 1.5f;
     private float velocityThreshold = 0.1f;
     private Animator animator;
     private bool awaitPetting = false;
+    private bool firstTime = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,7 +40,7 @@ public class PickUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(ballLanded){
+        if(firstTime && ballLanded){
             MoveToTarget(target);
             // var step = speed * Time.deltaTime;
             // transform.LookAt(target.transform, Vector3.up);
@@ -45,14 +48,21 @@ public class PickUp : MonoBehaviour
         }
         else if(backToStartPos){
             MoveToTarget(startPos);
-            if(Vector3.Distance(transform.position, startPos.transform.position) < 0.1f){
+            if(Vector3.Distance(transform.position, startPos.transform.position) < 0.05f){
                 Debug.Log("arrived at start pos");
                 animator.SetBool("pickup", false);
                 backToStartPos = false;
                 RotateToDirection(startPos);
             }
-        }else if(happy){
+        }
+        else if(happy){
+            Debug.Log("trigger happy");
             HappyInteraction();
+            happy = false;
+        }
+        else if(sleep){
+            SleepInteraction();
+            sleep = false;
         }
         
         // else if(sleepy){
@@ -76,6 +86,7 @@ public class PickUp : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider collider){
+        Debug.Log("sth touch dog");
         if(collider.gameObject.CompareTag("ball") && ballLanded){
             Debug.Log("ball is within reach");
             ballLanded = false;
@@ -92,9 +103,9 @@ public class PickUp : MonoBehaviour
 
     void MoveToTarget(GameObject destination){
         animator.SetBool("run", true);
-        var step = speed * Time.deltaTime;
+        // var step = speed * Time.deltaTime;
         transform.LookAt(destination.transform, Vector3.up);
-        transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);
+        // transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);
     }
 
     void RotateToDirection(GameObject destination){
@@ -106,6 +117,8 @@ public class PickUp : MonoBehaviour
 
             animator.SetBool("putdown", true);
             animator.SetBool("run", false);
+            firstTime = false;
+            StartCoroutine(WaitForPutdownFinish());
             // StartCoroutine(DetachBall());
         }
     }
@@ -123,31 +136,60 @@ public class PickUp : MonoBehaviour
     }
 
     void DetachBallFromDog(){
-        target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
+        // target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
+        if(sequenceHandler.GetCurrentStateIndex() < 5){
+            Destroy(target);
+        }else{
+            bone.GetComponent<AttachBallToMouth>().AttachBoneToSocket();
+        }
 
     }
 
-    void HappyInteraction(){
+    public void HappyInteraction(){
         animator.SetBool("happy", true);
         StartCoroutine(StopHappy());
     }
 
     IEnumerator StopHappy(){
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2f);
         animator.SetBool("happy", false);
+
+        // trigger petting prompt
+        sequenceHandler.PromptPetting();
 
     }
 
-    // void SleepInteraction(){
-    //     animator.SetBool("sleep", true);
-    //     StartCoroutine(StopSleepy());
-    // }
+    public void SleepInteraction(){
+        animator.SetBool("sleep", true);
+        // StartCoroutine(StopSleepy());
+    }
 
-    // IEnumerator StopSleepy(){
-    //     yield return new WaitForSeconds(5);
-    //     animator.SetBool("sleep", false);
+    IEnumerator StopSleepy(){
+        yield return new WaitForSeconds(5);
+        animator.SetBool("sleep", false);
 
-    // }
+    }
+
+    IEnumerator WaitForPutdownFinish(){
+        // Get the AnimatorStateInfo of the current animation
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        // Wait until the animation matches the name and is not complete
+        while (!stateInfo.IsName("Put_down") || stateInfo.normalizedTime < 1.0f)
+        {
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null; // Wait for the next frame
+        }
+
+        Debug.Log("Animation finished!");
+        animator.SetBool("putdown", false);
+
+        HappyInteraction();
+    }
+
+    public void PromptPetting(){
+        sequenceHandler.PromptPetting();
+    }
 
     // Detech hand collide
     // void OnTriggerEnter(Collider collider){
