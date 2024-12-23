@@ -9,6 +9,7 @@ public class PickUp : MonoBehaviour
     [SerializeField] GameObject target;
     [SerializeField] GameObject startPos;
     [SerializeField] Transform mouthPosition;
+    [SerializeField] SequenceHandler sequenceHandler;
     public bool ballLanded = false;
     public bool backToStartPos = false;
     public float speed = 0.1f;
@@ -145,12 +146,15 @@ public class PickUp : MonoBehaviour
     }
 
     IEnumerator StopHappy(){
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         animator.SetBool("happy", false);
+
+        // trigger petting prompt
+        sequenceHandler.PromptPetting();
 
     }
 
-    void SleepInteraction(){
+    public void SleepInteraction(){
         animator.SetBool("sleep", true);
         // StartCoroutine(StopSleepy());
     }
@@ -174,7 +178,8 @@ public class PickUp : MonoBehaviour
 
         Debug.Log("Animation finished!");
         animator.SetBool("putdown", false);
-        happy = true;
+
+        HappyInteraction();
     }
 
     // Detech hand collide

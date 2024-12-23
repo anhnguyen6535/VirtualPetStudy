@@ -4,8 +4,11 @@ public class HandControl : MonoBehaviour
 {
     [SerializeField] GameObject dog;
     [SerializeField] GloveController gloveController;
+    // [SerializeField] GameObject uiPrompt;
+    [SerializeField] SequenceHandler sequenceHandler;
     private Animator animator;
-    private float timer = 0f;
+    private float startTime = 0f;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,7 +28,7 @@ public class HandControl : MonoBehaviour
         {
             // gloveController.PlayHapticFeedback();
             Debug.Log("Hand touching dog");
-            timer = 0;  
+            startTime = Time.time;  
         }
     }
 
@@ -36,11 +39,16 @@ public class HandControl : MonoBehaviour
             // gloveController.PlayHapticFeedback();
             gloveController.PlayHapticFeedback();
             Debug.Log("Hand stay touching dog");
-            timer += Time.deltaTime;
-            if (timer > 5f)
+            float elapsedTime = Time.time - startTime;
+            if (elapsedTime > 5f)
             {
                 Debug.Log("User has petted dog for more than 5 seconds!");
+                // uiPrompt.SetActive(true);
                 animator.SetBool("idle", true);
+
+                if(sequenceHandler.GetIsWaitingForPetting()){
+                    sequenceHandler.IncrementStateIndex();
+                }
             }
         }
     }
@@ -50,6 +58,7 @@ public class HandControl : MonoBehaviour
         Debug.Log("Hand leaving sth");
         if(collider.gameObject.CompareTag("dog"))
         {
+            startTime = 0;
             gloveController.StopHapticFeedback();
             Debug.Log("Hand leaving dog");
             animator.SetBool("idle", false);

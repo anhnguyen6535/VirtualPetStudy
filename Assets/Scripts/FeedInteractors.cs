@@ -7,6 +7,7 @@ public class FeedInteractors : MonoBehaviour
     [SerializeField] PickUp pickupScript;
     [SerializeField] GameObject bowl;
     [SerializeField] Transform attachPoint;
+    [SerializeField] SequenceHandler sequenceHandler;
     // private int timeCount = 1;
     private int firstTime = 0;
 
@@ -20,10 +21,15 @@ public class FeedInteractors : MonoBehaviour
     void Update()
     {
         if(bowl.transform.position == attachPoint.position && firstTime == 0){
+            // back to sitting 
             animator.SetBool("sleep", false);
+
+            // prompt petting
+            // sequenceHandler.PromptPetting();
             // animator.SetBool("eating", true);
-            StartCoroutine(StartEating());
+            StartCoroutine(WaitForLyingDownFinish());
             firstTime = 1;
+            // sequenceHandler.SetStateIndex(2);
         }
         // else if(bowl.transform.position == transform.position && firstTime == 2){
         //     animator.SetBool("eating", false);
@@ -71,5 +77,13 @@ public class FeedInteractors : MonoBehaviour
     IEnumerator StopAttack(){
         yield return new WaitForSeconds(5);
         animator.SetBool("idle", true);
+    }
+
+    IEnumerator WaitForLyingDownFinish(){
+
+        yield return new WaitForSeconds(3);
+
+        // prompt petting
+        sequenceHandler.PromptPetting();
     }
 }
