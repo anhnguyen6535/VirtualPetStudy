@@ -137,9 +137,11 @@ public class PickUp : MonoBehaviour
 
     void DetachBallFromDog(){
         // target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
+        Debug.Log($"Detaching from dog mouth...{Time.time}");
         if(sequenceHandler.GetCurrentStateIndex() < 5){
             Destroy(target);
         }else{
+            Debug.Log("Detaching BONE from dog mouth...");
             bone.GetComponent<AttachBallToMouth>().AttachBoneToSocket();
         }
 

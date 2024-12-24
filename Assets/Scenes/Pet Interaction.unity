@@ -14175,7 +14175,7 @@ MonoBehaviour:
   bowl: {fileID: 703898318}
   bone: {fileID: 1045339266}
   attachPoint: {fileID: 1937095169}
-  sequenceHandler: {fileID: 2069615579}
+  sequenceHandler: {fileID: 1556886663}
 --- !u!1001 &692397217
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20464,7 +20464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dog: {fileID: 1556886654}
   gloveController: {fileID: 1625292004}
-  sequenceHandler: {fileID: 2069615579}
+  sequenceHandler: {fileID: 1556886663}
 --- !u!65 &992073442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21871,7 +21871,7 @@ MonoBehaviour:
   dog: {fileID: 1556886657}
   socket: {fileID: 1937095169}
   socketParent: {fileID: 222458928}
-  sequenceHandler: {fileID: 2069615579}
+  sequenceHandler: {fileID: 1556886663}
   isBone: 1
 --- !u!1001 &1058968029
 PrefabInstance:
@@ -26207,7 +26207,7 @@ MonoBehaviour:
   dog: {fileID: 1556886657}
   socket: {fileID: 1937095169}
   socketParent: {fileID: 222458928}
-  sequenceHandler: {fileID: 2069615579}
+  sequenceHandler: {fileID: 1556886663}
   isBone: 0
 --- !u!1 &1315888192
 GameObject:
@@ -30657,7 +30657,7 @@ MonoBehaviour:
   bone: {fileID: 1045339266}
   startPos: {fileID: 1682521852}
   mouthPosition: {fileID: 2049620431}
-  sequenceHandler: {fileID: 2069615579}
+  sequenceHandler: {fileID: 1556886663}
   ballLanded: 0
   backToStartPos: 0
   speed: 0.5
@@ -30729,6 +30729,29 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &1556886663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556886654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9ff645128d3f7489c28e688866503a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStateIndex: 0
+  waitingForPetting: 0
+  fetchingUI: {fileID: 662021553}
+  pettingUI: {fileID: 1372981408}
+  feedingUI: {fileID: 688216076}
+  takeAwayUI: {fileID: 744109044}
+  finishUI: {fileID: 1081869062}
+  boneUI: {fileID: 1461486683}
+  pickUp: {fileID: 1556886657}
+  dogAnimator: {fileID: 1556886655}
+  bowl: {fileID: 703898318}
 --- !u!1 &1567344023
 GameObject:
   m_ObjectHideFlags: 0
@@ -36834,6 +36857,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1269103590856587871, guid: 356657174aa14e74e84f0cca1ed9dfde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1556886661}
+    - targetCorrespondingSourceObject: {fileID: 1269103590856587871, guid: 356657174aa14e74e84f0cca1ed9dfde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1556886663}
     - targetCorrespondingSourceObject: {fileID: 1463895566476806991, guid: 356657174aa14e74e84f0cca1ed9dfde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 834381700}
@@ -40815,7 +40841,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2069615579}
+      - m_Target: {fileID: 1556886663}
         m_TargetAssemblyTypeName: SequenceHandler, Assembly-CSharp
         m_MethodName: SetWaitingForPetting
         m_Mode: 1
@@ -42325,7 +42351,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069615571}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec9ff645128d3f7489c28e688866503a, type: 3}
   m_Name: 
