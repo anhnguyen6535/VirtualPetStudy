@@ -1,15 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class AttachBallToMouth : MonoBehaviour
+public class AttachToMouth : MonoBehaviour
 {
     public bool touchMouth = false;
-    [SerializeField] Transform mouthAttach;
     [SerializeField] PickUp dog;
     [SerializeField] Transform socket;
     [SerializeField] GameObject socketParent;
     [SerializeField] SequenceHandler sequenceHandler;
-    public bool isBone = false;
+    private GameObject gameObject;
     private bool grabbed = false;
 
     void Start()
@@ -19,26 +18,25 @@ public class AttachBallToMouth : MonoBehaviour
 
     void Update(){
         if(touchMouth){
-            if(mouthAttach != null){
-                transform.position = new Vector3(mouthAttach.position.x, mouthAttach.position.y, mouthAttach.position.z);
-            }
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         }
     }
 
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.CompareTag("mouthAttach") && !touchMouth && !grabbed)
+        Debug.Log("Mouth touch");
+        if(collider.gameObject.CompareTag("ball") && !touchMouth)
         {
-            Debug.Log("Mouth touch");
             touchMouth = true;
+            gameObject = collider.gameObject;
+            StartCoroutine(Comeback());
 
-            if(isBone){
-                socketParent.SetActive(false);
-                grabbed = true;
-                Debug.Log("Bone touches mouth");
-            } 
-
-            if(!isBone) StartCoroutine(Comeback());
+        }else if(collider.gameObject.CompareTag("bone") && !touchMouth && !grabbed){
+            gameObject = collider.gameObject;
+            grabbed = true;
+            touchMouth = true;
+            socketParent.SetActive(false);
+            Debug.Log("Bone touches mouth");
         }
     }
 
@@ -52,10 +50,10 @@ public class AttachBallToMouth : MonoBehaviour
     }
 
     public void AttachBoneToSocket(){
-        Debug.Log("attack bone to socket");
+        Debug.Log("attack bone to socket ATM");
         socketParent.SetActive(true);
         touchMouth=false;
-        transform.position = socket.position;
+        gameObject.transform.position = socket.position;
         StartCoroutine(PromptPetting());
     }
 
