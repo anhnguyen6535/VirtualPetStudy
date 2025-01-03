@@ -23,10 +23,12 @@ public class PickUp : MonoBehaviour
     private Animator animator;
     private bool awaitPetting = false;
     private bool firstTime = true;
+    private AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         grabInteractable = ball.GetComponent<XRGrabInteractable>();
         targetRigidbody = ball.GetComponent<Rigidbody>();
@@ -62,15 +64,7 @@ public class PickUp : MonoBehaviour
         else if(sleep){
             SleepInteraction();
             sleep = false;
-        }
-        
-        // else if(sleepy){
-            // SleepInteraction();
-        // }
-        // if(Vector3.Distance(transform.position, target.transform.position) <= stopDistance && targetRigidbody.linearVelocity.magnitude <= velocityThreshold){
-        //     Debug.Log("Stopped");
-        //     ballLanded = false;
-        // }    
+        }   
     }
 
     void OnThrow(SelectExitEventArgs args)
@@ -188,10 +182,10 @@ public class PickUp : MonoBehaviour
         sequenceHandler.PromptPetting();
     }
 
-    // Detech hand collide
-    // void OnTriggerEnter(Collider collider){
-    //     if (awaitPetting){
-    //         StartCoroutine(CountPetting);
-    //     }
-    // }
+    public void Barking(){
+        if(!audioSource.isPlaying){
+            Debug.Log("Play Barking");
+            audioSource.Play();
+        }
+    }
 }

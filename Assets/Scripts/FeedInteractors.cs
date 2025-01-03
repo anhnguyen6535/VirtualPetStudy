@@ -3,20 +3,25 @@ using System.Collections;
 
 public class FeedInteractors : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    // [SerializeField] Animator animator;
+    [SerializeField] GameObject dog;
     [SerializeField] PickUp pickupScript;
     [SerializeField] GameObject bowl;
     [SerializeField] GameObject bone;
     [SerializeField] Transform attachPoint;
     [SerializeField] SequenceHandler sequenceHandler;
+    [SerializeField] AudioSource pantingAudio;
     // private int timeCount = 1;
     private int firstTime = 0;
     private int firstTimeBone = 0;
+    private AudioSource audioSource;
+    private Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        animator = dog.GetComponent<Animator>();
+        audioSource = dog.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -34,7 +39,7 @@ public class FeedInteractors : MonoBehaviour
             if(firstTimeBone == 0){
                 // back to sitting 
                 animator.SetBool("idle", true);
-
+                ReplayPanting();
                 // prompt petting
                 firstTimeBone = 1;
                 StartCoroutine(WaitABitBeforePrompt());
@@ -68,6 +73,7 @@ public class FeedInteractors : MonoBehaviour
             if(firstTime == 1){
                 Debug.Log("take away bowl");
                 animator.SetBool("eating", false);
+                pantingAudio.Stop();
                 firstTime = 2;
                 StartCoroutine(StopAttack());
             }
@@ -106,4 +112,12 @@ public class FeedInteractors : MonoBehaviour
         // prompt petting
         sequenceHandler.PromptPetting();
     }
+
+    public void ReplayPanting(){
+        if(!pantingAudio.isPlaying){
+            pantingAudio.Play();
+        }
+    }
+
+
 }
