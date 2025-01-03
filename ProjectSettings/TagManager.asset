@@ -10,6 +10,7 @@ TagManager:
   - mouthAttach
   - hand
   - dog
+  - bone
   layers:
   - Default
   - TransparentFX

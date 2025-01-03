@@ -6,11 +6,10 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class PickUp : MonoBehaviour
 {
-    [SerializeField] GameObject target;
-    [SerializeField] GameObject bone;
+    [SerializeField] GameObject ball;
     [SerializeField] GameObject startPos;
-    [SerializeField] Transform mouthPosition;
     [SerializeField] SequenceHandler sequenceHandler;
+    [SerializeField] AttachToMouth attachToMouth;
     public bool ballLanded = false;
     public bool backToStartPos = false;
     public float speed = 0.1f;
@@ -24,13 +23,15 @@ public class PickUp : MonoBehaviour
     private Animator animator;
     private bool awaitPetting = false;
     private bool firstTime = true;
+    private AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
-        grabInteractable = target.GetComponent<XRGrabInteractable>();
-        targetRigidbody = target.GetComponent<Rigidbody>();
+        grabInteractable = ball.GetComponent<XRGrabInteractable>();
+        targetRigidbody = ball.GetComponent<Rigidbody>();
         if (grabInteractable != null)
         {
             grabInteractable.selectExited.AddListener(OnThrow);
@@ -41,7 +42,7 @@ public class PickUp : MonoBehaviour
     void Update()
     {
         if(firstTime && ballLanded){
-            MoveToTarget(target);
+            MoveToTarget(ball);
             // var step = speed * Time.deltaTime;
             // transform.LookAt(target.transform, Vector3.up);
             // transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
@@ -63,15 +64,7 @@ public class PickUp : MonoBehaviour
         else if(sleep){
             SleepInteraction();
             sleep = false;
-        }
-        
-        // else if(sleepy){
-            // SleepInteraction();
-        // }
-        // if(Vector3.Distance(transform.position, target.transform.position) <= stopDistance && targetRigidbody.linearVelocity.magnitude <= velocityThreshold){
-        //     Debug.Log("Stopped");
-        //     ballLanded = false;
-        // }    
+        }   
     }
 
     void OnThrow(SelectExitEventArgs args)
@@ -130,17 +123,15 @@ public class PickUp : MonoBehaviour
         }
     }
 
-    IEnumerator DetachBall(){
-        yield return new WaitForSeconds(0.2f); 
-        target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
-    }
-
     void DetachBallFromDog(){
         // target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
+        Debug.Log($"Detaching from dog mouth...{Time.time}");
         if(sequenceHandler.GetCurrentStateIndex() < 5){
-            Destroy(target);
+            attachToMouth.DetachBallFromMouth();
+            Destroy(ball);
         }else{
-            bone.GetComponent<AttachBallToMouth>().AttachBoneToSocket();
+            Debug.Log("Detaching BONE from dog mouth...");
+            attachToMouth.AttachBoneToSocket();
         }
 
     }
@@ -191,10 +182,10 @@ public class PickUp : MonoBehaviour
         sequenceHandler.PromptPetting();
     }
 
-    // Detech hand collide
-    // void OnTriggerEnter(Collider collider){
-    //     if (awaitPetting){
-    //         StartCoroutine(CountPetting);
-    //     }
-    // }
+    public void Barking(){
+        if(!audioSource.isPlaying){
+            Debug.Log("Play Barking");
+            audioSource.Play();
+        }
+    }
 }
