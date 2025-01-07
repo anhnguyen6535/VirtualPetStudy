@@ -4,6 +4,7 @@ using Bhaptics.SDK2;
 public class GloveController : MonoBehaviour
 {
     public bool clicked = false;
+    public bool rightHand = true;   // change to false if left hand dominance
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,9 +22,16 @@ public class GloveController : MonoBehaviour
     }
 
     public void PlayHapticFeedback(){
-        BhapticsLibrary.Play("touch_right");
-        Debug.Log("touch_right");
-        // Debug.Log("haptic played");
+        // Right hand dominance
+        if(rightHand){
+            BhapticsLibrary.Play("touch_right");
+            Debug.Log("touch_right");
+        }
+        // Left hand dominance
+        else{
+            BhapticsLibrary.Play("touch_left");
+            Debug.Log("touch_left");
+        }
     }
 
     public void StopHapticFeedback(){

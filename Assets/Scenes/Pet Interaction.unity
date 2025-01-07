@@ -8995,7 +8995,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b8f5eca8b4e991a49814eb1b45e80a02, type: 2}
   - {fileID: 2100000, guid: 4024274007206b4408b4612212e2f9d2, type: 2}
   - {fileID: 2100000, guid: ca65e4af5c8771541ab3c121903bfe76, type: 2}
-  colorIndex: 2
+  colorIndex: 0
   dog: {fileID: 1840862912}
 --- !u!4 &1573382093 stripped
 Transform:
@@ -9085,6 +9085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clicked: 0
+  rightHand: 1
 --- !u!1 &1639285327
 GameObject:
   m_ObjectHideFlags: 0
