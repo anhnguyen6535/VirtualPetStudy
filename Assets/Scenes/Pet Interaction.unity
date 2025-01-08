@@ -9105,6 +9105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clicked: 0
   rightHand: 1
+  sequenceHandler: {fileID: 1556886663}
 --- !u!1 &1639285327
 GameObject:
   m_ObjectHideFlags: 0

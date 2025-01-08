@@ -5,6 +5,7 @@ public class GloveController : MonoBehaviour
 {
     public bool clicked = false;
     public bool rightHand = true;   // change to false if left hand dominance
+    [SerializeField] SequenceHandler sequenceHandler;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,15 +23,17 @@ public class GloveController : MonoBehaviour
     }
 
     public void PlayHapticFeedback(){
-        // Right hand dominance
-        if(rightHand){
-            BhapticsLibrary.Play("touch_right");
-            Debug.Log("touch_right");
-        }
-        // Left hand dominance
-        else{
-            BhapticsLibrary.Play("touch_left");
-            Debug.Log("touch_left");
+        if (sequenceHandler.GetIsWaitingForPetting()){
+            // Right hand dominance
+            if(rightHand){
+                BhapticsLibrary.Play("touch_right");
+                Debug.Log("touch_right");
+            }
+            // Left hand dominance
+            else{
+                BhapticsLibrary.Play("touch_left");
+                Debug.Log("touch_left");
+            }
         }
     }
 
