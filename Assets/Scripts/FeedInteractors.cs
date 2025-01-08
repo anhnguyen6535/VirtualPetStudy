@@ -3,15 +3,13 @@ using System.Collections;
 
 public class FeedInteractors : MonoBehaviour
 {
-    // [SerializeField] Animator animator;
     [SerializeField] GameObject dog;
-    [SerializeField] PickUp pickupScript;
     [SerializeField] GameObject bowl;
     [SerializeField] GameObject bone;
     [SerializeField] Transform attachPoint;
-    [SerializeField] SequenceHandler sequenceHandler;
     [SerializeField] AudioSource pantingAudio;
-    // private int timeCount = 1;
+    private SequenceHandler sequenceHandler;
+    private PickUp pickupScript;
     private int firstTime = 0;
     private int firstTimeBone = 0;
     private AudioSource audioSource;
@@ -20,6 +18,8 @@ public class FeedInteractors : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        sequenceHandler = dog.GetComponent<SequenceHandler>();
+        pickupScript = dog.GetComponent<PickUp>();
         animator = dog.GetComponent<Animator>();
         audioSource = dog.GetComponent<AudioSource>();
     }
@@ -51,20 +51,7 @@ public class FeedInteractors : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        // if(other.gameObject.CompareTag("bowl")){
         Debug.Log($"Entered trigger at {Time.time}");
-        // if(other.gameObject == bowl ){
-        //     // if(timeCount == 1){
-        //     if(firstTime){
-        //         bowl.transform.position = transform.position;
-        //         // animator.SetBool("idle", false);
-        //         animator.SetBool("eating", true);
-        //         Debug.Log("bowl in");
-        //     }else{
-        //         animator.SetBool("idle", true);
-
-        //     }
-        // }
     }
 
     private void OnTriggerExit(Collider other) {
@@ -77,17 +64,12 @@ public class FeedInteractors : MonoBehaviour
                 firstTime = 2;
                 StartCoroutine(StopAttack());
             }
-            // timeCount = 2;
-            // StartCoroutine(StartEating());
         }
         if(other.gameObject == bone){
             if(firstTimeBone == 1){
                 Debug.Log("picked up bone");
                 firstTimeBone = 2;
-                // StartCoroutine(StopAttack());
             }
-            // timeCount = 2;
-            // StartCoroutine(StartEating());
         }
     }
 
@@ -102,7 +84,6 @@ public class FeedInteractors : MonoBehaviour
 
         // prompt
         sequenceHandler.SetStateIndex(4);
-        // animator.SetBool("idle", true);
     }
 
     IEnumerator WaitABitBeforePrompt(){

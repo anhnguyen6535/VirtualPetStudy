@@ -8,14 +8,15 @@ public class PickUp : MonoBehaviour
 {
     [SerializeField] GameObject ball;
     [SerializeField] GameObject startPos;
-    [SerializeField] SequenceHandler sequenceHandler;
     [SerializeField] AttachToMouth attachToMouth;
+    [SerializeField] GameObject rethrowUI;
     public bool ballLanded = false;
     public bool backToStartPos = false;
     public float speed = 0.1f;
     public float rotationSpeed = 0.2f;
     public bool happy = false;
     public bool sleep = false;
+    private SequenceHandler sequenceHandler;
     private XRGrabInteractable grabInteractable;
     private Rigidbody targetRigidbody;
     public float stopDistance = 1.5f;
@@ -24,10 +25,14 @@ public class PickUp : MonoBehaviour
     private bool awaitPetting = false;
     private bool firstTime = true;
     private AudioSource audioSource;
+    private Transform SpawnPos;
+    private float checkInterval = 0.01f; // How often to check the velocity
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        sequenceHandler = GetComponent<SequenceHandler>();
+        SpawnPos = GameObject.Find("SpawnPos").transform;
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         grabInteractable = ball.GetComponent<XRGrabInteractable>();
@@ -43,9 +48,6 @@ public class PickUp : MonoBehaviour
     {
         if(firstTime && ballLanded){
             MoveToTarget(ball);
-            // var step = speed * Time.deltaTime;
-            // transform.LookAt(target.transform, Vector3.up);
-            // transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
         }
         else if(backToStartPos){
             MoveToTarget(startPos);
@@ -70,13 +72,55 @@ public class PickUp : MonoBehaviour
     void OnThrow(SelectExitEventArgs args)
     {
         Debug.Log("Ball thrown");
-        StartCoroutine(triggerPickup());
+
+        StartCoroutine(WaitForBallToStop());
     }
 
-    IEnumerator triggerPickup(){
-        yield return new WaitForSeconds(1);
-        ballLanded = true;
+
+    // Remove OnThrow Listener once ball is destroyed
+    void OnDestroy(){
+        if(grabInteractable != null){
+            grabInteractable.selectExited.RemoveListener(OnThrow);
+            Debug.Log("Listener removed from grabInteractable.");
+        }
     }
+
+    IEnumerator WaitForBallToStop(){
+        float timeout = 2f; // Max time to wait
+        float elapsedTime = 0f;
+        
+        while(targetRigidbody.linearVelocity.magnitude > 0.1f && elapsedTime < timeout){
+            yield return new WaitForSeconds(checkInterval);
+            elapsedTime += checkInterval;
+        }
+
+        Debug.Log("Ball has stopped!");
+        Vector3 finalPosition = ball.transform.position;
+        Debug.Log("Final position: " + finalPosition);
+        float distance = Vector3.Distance(ball.transform.position, startPos.transform.position);
+        Debug.Log("Distance: " + distance);
+        if (distance < 1.5){
+            Debug.Log("Distance less than 1m");
+            targetRigidbody.isKinematic = true;
+            ball.transform.position = SpawnPos.position;
+            yield return new WaitForFixedUpdate();
+            targetRigidbody.isKinematic = false;
+            
+            // throw too close, prompt to do it again
+            if(ball.activeSelf){
+                rethrowUI.SetActive(true);
+            }
+        }else{
+            Debug.Log("Distance more than 2m");
+            ballLanded = true;
+            // StartCoroutine(triggerPickup());
+        }
+    }
+
+    // IEnumerator triggerPickup(){
+    //     yield return new WaitForSeconds(1);
+    //     ballLanded = true;
+    // }
 
     void OnTriggerEnter(Collider collider){
         Debug.Log("sth touch dog");
@@ -96,9 +140,7 @@ public class PickUp : MonoBehaviour
 
     void MoveToTarget(GameObject destination){
         animator.SetBool("run", true);
-        // var step = speed * Time.deltaTime;
         transform.LookAt(destination.transform, Vector3.up);
-        // transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, step);
     }
 
     void RotateToDirection(GameObject destination){
@@ -112,7 +154,6 @@ public class PickUp : MonoBehaviour
             animator.SetBool("run", false);
             firstTime = false;
             StartCoroutine(WaitForPutdownFinish());
-            // StartCoroutine(DetachBall());
         }
     }
 
@@ -124,11 +165,11 @@ public class PickUp : MonoBehaviour
     }
 
     void DetachBallFromDog(){
-        // target.GetComponent<AttachBallToMouth>().DetachBallFromMouth();
         Debug.Log($"Detaching from dog mouth...{Time.time}");
         if(sequenceHandler.GetCurrentStateIndex() < 5){
             attachToMouth.DetachBallFromMouth();
-            Destroy(ball);
+            ball.SetActive(false);
+            // Destroy(ball);
         }else{
             Debug.Log("Detaching BONE from dog mouth...");
             attachToMouth.AttachBoneToSocket();

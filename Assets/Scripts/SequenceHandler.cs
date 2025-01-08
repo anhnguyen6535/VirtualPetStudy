@@ -18,15 +18,17 @@ public class SequenceHandler : MonoBehaviour
     [SerializeField] GameObject takeAwayUI;
     [SerializeField] GameObject finishUI;
     [SerializeField] GameObject boneUI;
-    [SerializeField] PickUp pickUp;
-    [SerializeField] Animator dogAnimator;
     [SerializeField] GameObject bowl;
+    [SerializeField] GameObject socket;
+    private PickUp pickUp;
+    private Animator dogAnimator;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        pickUp = GetComponent<PickUp>();
+        dogAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -77,6 +79,7 @@ public class SequenceHandler : MonoBehaviour
 
     IEnumerator PromptFeeding(){
         yield return new WaitForSeconds(2);
+        socket.SetActive(true);
         feedingUI.SetActive(true);
     }
 
