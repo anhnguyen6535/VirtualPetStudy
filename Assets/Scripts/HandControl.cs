@@ -1,5 +1,11 @@
 using UnityEngine;
 
+
+/*
+    This script is attached to XROrigin > Right Hand > Right Hand Interaction Visual > R_Wrist > ColliderBox
+    For now I only setup the Right hand with the assumption that the participant will follow the rule & always touch the dog with both hands
+    Follow the documentation in Documentation/hand_interaction.md to set up the other hand if you want
+*/
 public class HandControl : MonoBehaviour
 {
     [SerializeField] GameObject dog;

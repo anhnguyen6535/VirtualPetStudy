@@ -1,6 +1,10 @@
 using UnityEngine;
 using Bhaptics.SDK2;
 // namespace Bhaptics.SDK2
+
+/*
+    This script is attached to [bhaptics] object
+*/
 public class GloveController : MonoBehaviour
 {
     public bool clicked = false;
@@ -23,6 +27,9 @@ public class GloveController : MonoBehaviour
     }
 
     public void PlayHapticFeedback(){
+
+        // Disable this if condition if you want to let the haptic plays anytime
+        // Enable this if condition if you only want it to play while system is waiting for user to pet
         if (sequenceHandler.GetIsWaitingForPetting()){
             // Right hand dominance
             if(rightHand){

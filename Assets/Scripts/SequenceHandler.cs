@@ -1,15 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
+/*
+    This script is attached to Beagle_c1
+    To get more details about the meaning of currentStateIndex, review Documentation/detailed_scenario.md and Documentation/sequence_handler.md
+*/
 public class SequenceHandler : MonoBehaviour
 {
-
-    /**
-    *   0: welcome & wait for 1st petting
-    *   1: wait for fetching ball -> dog brought the ball back -> waiting for petting -> petted 
-    *   3: dog lies down & wait for bowl in place
-    *   4: bowl in place => petted => should start eating
-    **/
     public int currentStateIndex = 0;   // 0: start state
     public bool waitingForPetting = false;
     [SerializeField] GameObject fetchingUI;

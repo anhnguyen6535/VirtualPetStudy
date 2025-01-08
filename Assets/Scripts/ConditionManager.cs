@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/*
+   This script is attached to Beagle_c1
+*/
 public class ConditionManager : MonoBehaviour
 {
     [SerializeField] List<Material> listMaterials = new List<Material>();

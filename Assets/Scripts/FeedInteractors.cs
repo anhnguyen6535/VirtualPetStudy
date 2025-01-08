@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
+
+/*
+    This script is attached to Snap Socket > SnapSocketTitle > SimpleSocket
+*/
 public class FeedInteractors : MonoBehaviour
 {
     [SerializeField] GameObject dog;
