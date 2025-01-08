@@ -31,7 +31,7 @@ public class AttachToMouth : MonoBehaviour
             gameObject = collider.gameObject;
             StartCoroutine(Comeback());
 
-        }else if(collider.gameObject.CompareTag("bone") && !touchMouth && !grabbed){
+        }else if(collider.gameObject.CompareTag("bone") && !touchMouth && !grabbed && sequenceHandler.GetCurrentStateIndex() == 5){
             gameObject = collider.gameObject;
             grabbed = true;
             touchMouth = true;
