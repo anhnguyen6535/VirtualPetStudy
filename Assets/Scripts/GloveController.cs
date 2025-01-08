@@ -36,6 +36,7 @@ public class GloveController : MonoBehaviour
 
     public void StopHapticFeedback(){
         Debug.Log("Should stop");
+        BhapticsLibrary.StopAll();
         // BhapticsManager.Stop("touch");
 
     }
