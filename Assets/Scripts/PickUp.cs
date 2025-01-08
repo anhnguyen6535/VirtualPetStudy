@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
+
+/*
+    This script is attached to Beagle_c1
+*/
 public class PickUp : MonoBehaviour
 {
     [SerializeField] GameObject ball;

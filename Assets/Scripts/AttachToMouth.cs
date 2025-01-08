@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+
+/*
+    This script is attached to 
+    Beagle_c1 > Arm_Beagle > Root_bone > Spine_base > Spine_02 > Spine_03 > Spine_04 > Spine_05 > neck > head > mouth > tongue_1 > MouthAttach
+*/
 public class AttachToMouth : MonoBehaviour
 {
     public bool touchMouth = false;
